@@ -1,0 +1,34 @@
+#!/bin/sh
+umask 0177
+
+KEYID='CHANGME'
+PWDIR=$HOME/.pw
+
+usage() {
+	printf 'usage: %s <set|get|ls> [domain] [user] [passwd]\n' ${1##*/} 1>&2
+	exit 0
+}
+
+case "$1" in
+set)
+	shift
+	[ $# -ne 3 ] && usage
+
+	[ -d $PWDIR/$1 ] || {
+		mkdir -p $PWDIR/$1
+		chmod 700 $PWDIR/$1
+	}
+	echo "$3" | gpg -qaer $KEYID >$PWDIR/$1/$2
+	;;
+get)
+	shift
+	[ $# -ne 2 ] && usage
+	gpg -qd <"$PWDIR/$1/$2"
+	;;
+ls)
+	tree $PWDIR
+	;;
+*)
+	usage
+	;;
+esac
