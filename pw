@@ -5,7 +5,7 @@ CFGFILE=$HOME/.pwrc
 [ -f $CFGFILE ] && . $CFGFILE
 
 usage() {
-	printf 'usage: %s <set|get|ls> [domain] [user] [passwd]\n' ${1##*/} 1>&2
+	printf 'usage: %s <set|get|ls> [domain] [user] [passwd]\n' ${0##*/} 1>&2
 	exit 0
 }
 
