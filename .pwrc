@@ -1,0 +1,4 @@
+# vi: set ft=sh :
+PWDIR=$HOME/.pw
+KEYID='your key id goes here'
+

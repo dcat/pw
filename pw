@@ -1,8 +1,8 @@
 #!/bin/sh
 umask 0177
 
-KEYID='CHANGME'
-PWDIR=$HOME/.pw
+CFGFILE=$HOME/.pwrc
+[ -f $CFGFILE ] && . $CFGFILE
 
 usage() {
 	printf 'usage: %s <set|get|ls> [domain] [user] [passwd]\n' ${1##*/} 1>&2
@@ -32,3 +32,4 @@ ls)
 	usage
 	;;
 esac
+
