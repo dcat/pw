@@ -4,6 +4,9 @@ umask 0177
 CFGFILE=$HOME/.pwrc
 [ -f $CFGFILE ] && . $CFGFILE
 
+: ${PWDIR:=$HOME/.pw}
+: ${KEYID:=4DEC416A63E41987E0A0DC6A870F721687E49E93}
+
 usage() {
 	printf 'usage: %s <set|get|ls> [domain] [user] [passwd]\n' ${0##*/} 1>&2
 	exit 0
@@ -22,8 +25,14 @@ set)
 	;;
 get)
 	shift
-	[ $# -ne 2 ] && usage
-	gpg -qd <"$PWDIR/$1/$2"
+	case $# in
+	1)	gpg -qd <"$PWDIR/$1/`ls -1 $PWDIR/$1/ | head -1`"
+		;;
+	2)	gpg -qd <"$PWDIR/$1/$2"
+		;;
+	*)	usage
+		;;
+	esac
 	;;
 ls)
 	tree $PWDIR
